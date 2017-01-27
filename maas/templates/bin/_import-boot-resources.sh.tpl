@@ -17,7 +17,7 @@ function check_for_download {
 }
 
 maas-region local_config_set \
-        --database-host "{{ .Values.db_service_name }}.{{ .Release.Namespace}}" \
+        --database-host "{{ include "maas_db_host" . }}" \
         --database-name "{{ .Values.database.db_name }}" \
         --database-user "{{ .Values.database.db_user }}" \
         --database-pass "{{ .Values.database.db_password }}" \

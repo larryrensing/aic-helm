@@ -18,6 +18,8 @@
 {{- define "rabbitmq_host"}}rabbitmq.{{.Release.Namespace}}.svc.{{ include "region" . }}.{{ include "tld" . }}{{- end}}
 {{- define "memcached_host"}}memcached.{{.Release.Namespace}}.svc.{{ include "region" . }}.{{ include "tld" . }}{{- end}}
 {{- define "mariadb_host"}}mariadb.{{.Release.Namespace}}.svc.{{ include "region" . }}.{{ include "tld" . }}{{- end}}
+{{- define "postgresql_host"}}postgresql.{{.Release.Namespace}}.svc.{{ include "region" . }}.{{ include "tld" . }}{{- end}}
+{{- define "maas_db_host"}}{{ include "postgresql_host" . }}{{- end}}
 
 # keystone defaults
 {{- define "keystone_db_host"}}{{ include "mariadb_host" . }}{{- end}}
