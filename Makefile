@@ -1,14 +1,16 @@
-.PHONY: ceph bootstrap mariadb keystone memcached rabbitmq common openstack neutron nova cinder heat maas all clean
+.PHONY: slackbridge ceph bootstrap mariadb keystone memcached rabbitmq common openstack neutron nova cinder heat maas all clean
 
 B64_DIRS := common/secrets
 B64_EXCLUDE := $(wildcard common/secrets/*.b64)
 
-CHARTS := ceph mariadb rabbitmq memcached keystone glance horizon neutron nova cinder heat maas openstack
+CHARTS := slackbridge ceph mariadb rabbitmq memcached keystone glance horizon neutron nova cinder heat maas openstack
 COMMON_TPL := common/templates/_globals.tpl
 
-all: common ceph bootstrap mariadb rabbitmq memcached keystone glance horizon neutron nova cinder heat maas openstack
+all: common slackbridge ceph bootstrap mariadb rabbitmq memcached keystone glance horizon neutron nova cinder heat maas openstack
 
 common: build-common
+
+slackbridge: build-slackbridge
 
 #ceph: nolint-build-ceph
 ceph: build-ceph

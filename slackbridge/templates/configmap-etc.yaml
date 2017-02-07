@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: slackbridge-etc
+data:
+  config.json.txt: |
+{{ tuple "etc/_config.json.txt.tpl" . | include "template" | indent 4 }}

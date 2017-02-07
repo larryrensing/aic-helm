@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: slackbridge
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: slackbridge
+    spec:
+      containers:
+      - name: slackbridge
+        image: {{ .Values.image.slackbridge | quote }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+          - name: config-json
+            mountPath: /slack-irc/config.json.txt
+            subPath: config.json.txt
+      volumes:
+        - name: config-json
+          configMap:
+            name: slackbridge-etc
+{{ if .Values.resources.enabled }}
+{{ toYaml .Values.resources | indent 12 }}
+{{ end }}

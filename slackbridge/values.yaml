@@ -1,0 +1,22 @@
+# Default values for slackbridge.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+bot_nickname: YourSlackBotName
+irc_server: irc.server.net
+slack_token: YourSlackToken
+irc_channel: YourIRCChannel
+slack_channel: YourSlackChannel
+
+image:
+  slackbridge: quay.io/larryrensing/slackbridge:1.0
+  pullPolicy: Always
+
+resources:
+  enabled: false
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
