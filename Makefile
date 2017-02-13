@@ -39,8 +39,6 @@ maas: build-maas
 
 memcached: build-memcached
 
-postgresql: build-postgresql
-
 openstack: build-openstack
 
 clean:

@@ -73,9 +73,6 @@ if [ "$1" = "configure" ] && [ -z "$2" ]; then
     ################  Configure Database  ###################
     #########################################################
 
-    # Need to for postgresql start so it doesn't fail on the installer
-    #restart_postgresql
-
     # Create the database
     dbc_go maas-region-controller $@
     maas-region local_config_set \
