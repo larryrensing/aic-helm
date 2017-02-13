@@ -45,6 +45,15 @@ spec:
       - name: maas-region
         image: {{ .Values.images.maas_region }}
         imagePullPolicy: {{ .Values.images.pull_policy }}
+        {{- if .Values.resources.enabled }}
+        resources:
+          limits:
+            cpu: {{ .Values.resources.maas_region.limits.cpu | quote }}
+            memory: {{ .Values.resources.maas_region.limits.memory | quote }}
+          requests:
+            cpu: {{ .Values.resources.maas_region.requests.cpu | quote }}
+            memory: {{ .Values.resources.maas_region.requests.memory | quote}}
+        {{- end }}
         ports:
         - name: region-ui
           containerPort: {{ .Values.network.port.region_container }}
@@ -70,18 +79,18 @@ spec:
           emptyDir: {}
         - name: maas-region-secret
           configMap:
-            name: maas-region-etc
+            name: maas-etc
         - name: maas-config
           emptyDir: {}
         - name: maas-dns-config
           configMap:
-            name: maas-region-etc
+            name: maas-etc
         - name: postgresql-defaults
           configMap:
-            name: maas-region-etc
+            name: maas-etc
         - name: startsh
           configMap:
-            name: maas-region-bin
+            name: maas-bin
         - name: maasregionpostinst
           configMap:
-            name: maas-region-bin
+            name: maas-bin

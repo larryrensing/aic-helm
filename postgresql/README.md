@@ -1,4 +1,4 @@
-# aic-helm/mariadb
+# openstack-helm/postgresql
 
 This chart leverages StatefulSets, with persistent storage.
 

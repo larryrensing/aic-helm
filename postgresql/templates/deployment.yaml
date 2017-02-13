@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.service_name }}
 spec:
   serviceName: {{ .Values.service_name }}
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
@@ -60,7 +60,7 @@ spec:
   - metadata:
       name: postgresql-data
       annotations:
-        {{ .Values.volume.class_path}}: {{ .Values.volume.class_name }}
+        {{ .Values.volume.class_path }}: {{ .Values.volume.class_name }}
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
