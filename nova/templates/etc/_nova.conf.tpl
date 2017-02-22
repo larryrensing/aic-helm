@@ -1,3 +1,17 @@
+# Copyright 2017 The Openstack-Helm Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 [DEFAULT]
 debug = {{ .Values.nova.default.debug }}
 default_ephemeral_format = ext4
@@ -43,19 +57,19 @@ lock_path = /var/lib/nova/tmp
 workers = {{ .Values.nova.default.conductor_workers }}
 
 [glance]
-api_servers = {{ include "endpoint_glance_api_internal" . }}
+api_servers = {{ include "helm-toolkit.endpoint_glance_api_internal" . }}
 num_retries = 3
 
 [cinder]
 catalog_info = volume:cinder:internalURL
 
 [neutron]
-url = {{ include "endpoint_neutron_api_internal" . }}
+url = {{ include "helm-toolkit.endpoint_neutron_api_internal" . }}
 
 metadata_proxy_shared_secret = {{ .Values.neutron.metadata_secret }}
 service_metadata_proxy = True
 
-auth_url = {{ include "endpoint_keystone_admin" . }}
+auth_url = {{ include "helm-toolkit.endpoint_keystone_admin" . }}
 auth_type = password
 project_domain_name = default
 user_domain_id = default
@@ -72,8 +86,8 @@ connection = mysql+pymysql://{{ .Values.database.nova_user }}:{{ .Values.databas
 max_retries = -1
 
 [keystone_authtoken]
-auth_uri = {{ include "endpoint_keystone_internal" . }}
-auth_url = {{ include "endpoint_keystone_admin" . }}
+auth_uri = {{ include "helm-toolkit.endpoint_keystone_internal" . }}
+auth_url = {{ include "helm-toolkit.endpoint_keystone_admin" . }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default

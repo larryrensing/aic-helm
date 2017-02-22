@@ -1,3 +1,17 @@
+# Copyright 2017 The Openstack-Helm Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 [DEFAULT]
 debug = {{ .Values.misc.debug }}
 use_syslog = False
@@ -33,7 +47,7 @@ max_retries = -1
 signing_dir = "/var/cache/heat"
 memcached_servers = "{{ .Values.memcached.host }}:{{ .Values.memcached.port }}"
 auth_version = v3
-auth_url = {{ include "endpoint_keystone_internal" . }}
+auth_url = {{ include "helm-toolkit.endpoint_keystone_internal" . }}
 auth_type = password
 region_name = {{ .Values.keystone.heat_region_name }}
 project_domain_name = {{ .Values.keystone.heat_project_domain }}
@@ -74,7 +88,7 @@ auth_section = "trustee_keystone"
 signing_dir = "/var/cache/heat"
 memcached_servers = "{{ .Values.memcached.host }}:{{ .Values.memcached.port }}"
 auth_version = v3
-auth_url = {{ include "endpoint_keystone_internal" . }}
+auth_url = {{ include "helm-toolkit.endpoint_keystone_internal" . }}
 auth_type = password
 region_name = {{ .Values.keystone.heat_trustee_region_name }}
 user_domain_name = {{ .Values.keystone.heat_trustee_user_domain }}
@@ -87,4 +101,4 @@ endpoint_type = internalURL
 
 [clients_keystone]
 endpoint_type = internalURL
-auth_uri = {{ include "endpoint_keystone_internal" . }}
+auth_uri = {{ include "helm-toolkit.endpoint_keystone_internal" . }}

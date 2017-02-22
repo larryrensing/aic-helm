@@ -1,11 +1,25 @@
+# Copyright 2017 The Openstack-Helm Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 [ml2]
 # Changing type_drivers after bootstrap can lead to database inconsistencies
-type_drivers = {{ include "joinListWithComma" .Values.ml2.type_drivers }}
+type_drivers = {{ include "helm-toolkit.joinListWithComma" .Values.ml2.type_drivers }}
 tenant_network_types = {{ .Values.ml2.tenant_network_types }}
-mechanism_drivers = {{ include "joinListWithComma" .Values.ml2.mechanism_drivers }}
+mechanism_drivers = {{ include "helm-toolkit.joinListWithComma" .Values.ml2.mechanism_drivers }}
 
 [ml2_type_flat]
-flat_networks = {{ include "joinListWithComma" .Values.ml2.ml2_type_flat.flat_networks }}
+flat_networks = {{ include "helm-toolkit.joinListWithComma" .Values.ml2.ml2_type_flat.flat_networks }}
 
 [ml2_type_gre]
 # (ListOpt) Comma-separated list of <tun_min>:<tun_max> tuples enumerating ranges
@@ -35,7 +49,7 @@ arp_responder = false
 {{- end }}
 
 [ovs]
-bridge_mappings = {{ include "joinListWithComma" .Values.ml2.ovs.bridge_mappings }}
+bridge_mappings = {{ include "helm-toolkit.joinListWithComma" .Values.ml2.ovs.bridge_mappings }}
 tenant_network_type = {{ .Values.ml2.agent.tunnel_types }}
 
 [vxlan]

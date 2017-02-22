@@ -1,3 +1,17 @@
+# Copyright 2017 The Openstack-Helm Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 [DEFAULT]
 debug = {{ .Values.neutron.default.debug }}
 use_syslog = False
@@ -33,7 +47,7 @@ router_auto_schedule = True
 transport_url = rabbit://{{ .Values.rabbitmq.admin_user }}:{{ .Values.rabbitmq.admin_password }}@{{ .Values.rabbitmq.address }}:{{ .Values.rabbitmq.port }}
 
 [nova]
-auth_url = {{ include "endpoint_keystone_internal" . }}
+auth_url = {{ include "helm-toolkit.endpoint_keystone_internal" . }}
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
@@ -55,11 +69,11 @@ l2_population = true
 arp_responder = true
 
 [database]
-connection = mysql+pymysql://{{ .Values.database.neutron_user }}:{{ .Values.database.neutron_password }}@{{ include "neutron_db_host" . }}/{{ .Values.database.neutron_database_name }}
+connection = mysql+pymysql://{{ .Values.database.neutron_user }}:{{ .Values.database.neutron_password }}@{{ include "helm-toolkit.mariadb_host" . }}/{{ .Values.database.neutron_database_name }}
 max_retries = -1
 
 [keystone_authtoken]
-auth_url = {{ include "endpoint_keystone_internal" . }}
+auth_url = {{ include "helm-toolkit.endpoint_keystone_internal" . }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
