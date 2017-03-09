@@ -23,5 +23,11 @@ spec:
   ports:
   - name: nova-osapi
     port: {{ .Values.network.port.osapi }}
+    {{ if .Values.network.enable_node_port }}
+    nodePort: {{ .Values.network.port.node_port_osapi }}
+    {{ end }}
   selector:
     app: nova-osapi
+  {{ if .Values.network.enable_node_port }}
+  type: NodePort
+  {{ end }}

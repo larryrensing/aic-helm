@@ -79,18 +79,25 @@ keystone:
   heat_stack_password: "password"
   heat_stack_region_name: "RegionOne"
 
+network:
+  enable_node_port: false
+  port:
+    api: 8004
+    node_port_api: 30004
+    cfn: 8000
+    node_port_cfn: 30800
+    cloudwatch: 8003
+    node_port_cloudwatch: 30003
+
 service:
   api:
     name: "heat-api"
-    port: 8004
     proto: "http"
   cfn:
     name: "heat-cfn"
-    port: 8000
     proto: "http"
   cloudwatch:
     name: "heat-cloudwatch"
-    port: 8003
     proto: "http"
 
 database:

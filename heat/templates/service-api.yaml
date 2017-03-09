@@ -18,6 +18,12 @@ metadata:
   name: {{ .Values.service.api.name }}
 spec:
   ports:
-    - port: {{ .Values.service.api.port }}
+    - port: {{ .Values.network.port.api }}
+    {{ if .Values.network.enable_node_port }}
+      nodePort: {{ .Values.network.port.node_port_api }}
+    {{ end }}
   selector:
     app: heat-api
+  {{ if .Values.network.enable_node_port }}
+  type: NodePort
+  {{ end }}

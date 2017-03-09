@@ -52,9 +52,12 @@ api:
     provider: uuid
 
 network:
+  enable_node_port: false
   port:
     admin: 35357
+    node_port_admin: 30357
     api: 5000
+    node_port_api: 30500
 
 database:
   port: 3306

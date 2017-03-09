@@ -49,10 +49,10 @@ spec:
             - --config-dir
             - /etc/heat/conf
           ports:
-            - containerPort: {{ .Values.service.cloudwatch.port }}
+            - containerPort: {{ .Values.network.port.cloudwatch }}
           readinessProbe:
             tcpSocket:
-              port: {{ .Values.service.cloudwatch.port }}
+              port: {{ .Values.network.port.cloudwatch }}
           volumeMounts:
             - name: pod-etc-heat
               mountPath: /etc/heat

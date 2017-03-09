@@ -64,6 +64,7 @@ labels:
     node_selector_value: enabled
 
 network:
+  enable_node_port: false
   dns:
     kubernetes_domain: cluster.local
     # this must list the skydns server first, and in calico
@@ -78,6 +79,7 @@ network:
     default: enp11s0f0
   port:
     server: 9696
+    node_port_server: 30696
     metadata: 8775
 
 memcached:

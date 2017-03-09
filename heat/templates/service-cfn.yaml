@@ -18,6 +18,12 @@ metadata:
   name: {{ .Values.service.cfn.name }}
 spec:
   ports:
-    - port: {{ .Values.service.cfn.port }}
+    - port: {{ .Values.network.port.cfn }}
+    {{ if .Values.network.enable_node_port }}
+      nodePort: {{ .Values.network.port.node_port_cfn }}
+    {{ end }}
   selector:
     app: heat-cfn
+  {{ if .Values.network.enable_node_port }}
+  type: NodePort
+  {{ end }}

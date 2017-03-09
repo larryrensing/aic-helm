@@ -19,5 +19,11 @@ metadata:
 spec:
   ports:
     - port: {{ .Values.network.port.api }}
+    {{ if .Values.network.enable_node_port }}
+      nodePort: {{ .Values.network.port.node_port_api }}
+    {{ end }}
   selector:
     app: glance-api
+  {{ if .Values.network.enable_node_port }}
+  type: NodePort
+  {{ end }}

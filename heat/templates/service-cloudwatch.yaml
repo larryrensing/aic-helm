@@ -18,6 +18,12 @@ metadata:
   name: {{ .Values.service.cloudwatch.name }}
 spec:
   ports:
-    - port: {{ .Values.service.cloudwatch.port }}
+    - port: {{ .Values.network.port.cloudwatch }}
+    {{ if .Values.network.enable_node_port }}
+      nodePort: {{ .Values.network.port.node_port_cloudwatch }}
+    {{ end }}
   selector:
     app: heat-cloudwatch
+  {{ if .Values.network.enable_node_port }}
+  type: NodePort
+  {{ end }}

@@ -62,8 +62,10 @@ keystone:
   cinder_region_name: "RegionOne"
 
 network:
+  enable_node_port: false
   port:
     api: 8776
+    node_port_api: 30776
 
 database:
   address: mariadb

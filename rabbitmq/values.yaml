@@ -46,9 +46,13 @@ auth:
   admin_pass: password
 
 network:
+  enable_node_port: false
   port:
     public: '5672'
+    node_port_public: 30567
     management: '15672'
+    node_port_management: 30156
+
 
 images:
   rabbitmq: "registry.mcp.fuel-infra.org/mcp/rabbitmq:ocata-unstable"

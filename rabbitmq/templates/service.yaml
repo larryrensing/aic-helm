@@ -19,5 +19,11 @@ metadata:
 spec:
   ports:
   - port: {{.Values.network.port.public}}
+  {{ if .Values.network.enable_node_port }}
+    nodePort: {{ .Values.network.port.node_port_public }}
+  {{ end }}
   selector:
     app: rabbitmq
+  {{ if .Values.network.enable_node_port }}
+  type: NodePort
+  {{ end }}

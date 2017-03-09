@@ -59,10 +59,12 @@ network:
       - "8.8.8.8"
     kubernetes_domain: "cluster.local"
     other_domains: ""
-
+  enable_node_port: false
   port:
     osapi: 8774
+    node_port_osapi: 30774
     metadata: 8775
+    node_port_metadata: 30775
     novncproxy: 6080
 
 nova:
