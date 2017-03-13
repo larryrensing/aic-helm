@@ -1,0 +1,125 @@
+# Default values for gnocchi.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicas:
+  api: 1
+
+labels:
+  node_selector_key: openstack-control-plane
+  node_selector_value: enabled
+
+images:
+  dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.1.0
+  db_init: docker.io/postgres:9.5
+  db_sync: quay.io/larryrensing/ubuntu-source-gnocchi-api:3.0.3
+  api: quay.io/larryrensing/ubuntu-source-gnocchi-api:3.0.3
+  statsd: quay.io/larryrensing/ubuntu-source-gnocchi-statsd:3.0.3
+  pull_policy: "IfNotPresent"
+
+keystone:
+  admin_user: "admin"
+  admin_user_domain: "default"
+  admin_password: "password"
+  admin_project_name: "admin"
+  admin_project_domain: "default"
+  admin_region_name: "RegionOne"
+
+  gnocchi_user: "gnocchi"
+  gnocchi_user_domain: "default"
+  gnocchi_user_role: "admin"
+  gnocchi_password: "password"
+  gnocchi_project_name: "service"
+  gnocchi_project_domain: "default"
+  gnocchi_region_name: "RegionOne"
+
+network:
+  api:
+    port: 8041
+
+api:
+  default:
+    debug: false
+
+dependencies:
+  init:
+    jobs:
+    - mariadb-seed
+    service:
+    - postgresql
+  db_sync:
+    jobs:
+    - gnocchi-db-init
+    service:
+    - postgresql
+  api:
+    jobs:
+    - gnocchi-db-sync
+    service:
+    - keystone-api
+    - postgresql
+  statsd:
+    jobs:
+    - gnocchi-db-sync
+    service:
+    - postgresql
+
+database:
+  address: mariadb
+  port: 3306
+  root_user: root
+  root_password: password
+  gnocchi_database_name: gnocchi
+  gnocchi_password: password
+  gnocchi_user: gnocchi
+
+# typically overriden by environmental
+# values, but should include all endpoints
+# required by this chart
+endpoints:
+  identity:
+    name: keystone
+    hosts:
+      default: keystone-api
+    path: /v3
+    scheme: 'http'
+    port:
+      admin: 35357
+      api: 5000
+  oslo_db:
+    auth:
+      admin:
+        username: postgres
+        password: password
+      user:
+        username: gnocchi
+        password: password
+    hosts:
+      default: postgresql
+    path: /gnocchi
+    scheme: postgresql
+    port:
+      postgresql: 5432
+
+resources:
+  enabled: false
+  gnocchi_api:
+    requests:
+      memory: "124Mi"
+      cpu: "100m"
+    limits:
+      memory: "1024Mi"
+      cpu: "2000m"
+  gnocchi_db_init:
+    requests:
+      memory: "124Mi"
+      cpu: "100m"
+    limits:
+      memory: "1024Mi"
+      cpu: "2000m"
+  gnocchi_db_sync:
+    requests:
+      memory: "124Mi"
+      cpu: "100m"
+    limits:
+      memory: "1024Mi"
+      cpu: "2000m"
