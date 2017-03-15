@@ -142,13 +142,6 @@ dependencies:
     - nova-db-init
     - keystone-db-init
     - mariadb-seed
-    service:
-    - mariadb
-  db_sync:
-    jobs:
-    - nova-db-init
-    - keystone-db-init
-    - mariadb-seed
     - keystone-db-sync
     service:
     - mariadb
