@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if .Values.bootstrap.enabled -}}
 {{- $envAll := . }}
+{{- $ksAdminSecret := $envAll.Values.keystone.admin_secret | default "nova-env-keystone-admin" }}
 {{- $dependencies := .Values.dependencies.bootstrap }}
 apiVersion: batch/v1
 kind: Job
@@ -46,6 +46,10 @@ spec:
           command:
             - bash
             - /tmp/bootstrap.sh
+          env:
+{{- with $env := dict "ksUserSecret" $ksAdminSecret }}
+{{- include "helm-toolkit.keystone_openrc_env_vars" $env | indent 12 }}
+{{- end }}
           volumeMounts:
             - name: novaconf
               mountPath: /etc/nova/nova.conf
@@ -60,4 +64,3 @@ spec:
         - name: nova-bin
           configMap:
             name: nova-bin
-{{- end -}}
