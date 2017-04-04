@@ -41,6 +41,15 @@ storage:
   var_directory: /var/lib/openstack-helm/ceph/ceph
   mon_directory: /var/lib/openstack-helm/ceph/mon
 
+osd_directory:
+  enabled: false
+
+osd_devices:
+  - name: dev-sdb
+    device: /dev/sdb
+    type: disk
+    zap: "1"
+
 # rgw is optionall disabled
 rgw:
   enabled: false
