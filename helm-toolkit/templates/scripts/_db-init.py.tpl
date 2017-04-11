@@ -28,6 +28,7 @@ import sys
 import ConfigParser
 import logging
 from sqlalchemy import create_engine
+from sqlalchemy_utils import database_exists, create_database
 
 # Create logger, console handler and formatter
 logger = logging.getLogger('OpenStack-Helm DB Init')
@@ -91,6 +92,8 @@ try:
     root_engine_url = ''.join([drivername, '://', root_user, ':', root_password, '@', host, ':', str (port)])
     root_engine = create_engine(root_engine_url)
     connection = root_engine.connect()
+    logger.info("Hello world!!!!")
+    logger.critical("Using {0}".format(root_engine.driver()))
     connection.close()
     logger.info("Tested connection to DB @ {0}:{1} as {2}".format(
         host, port, root_user))
@@ -114,8 +117,15 @@ except:
 
 # Create DB
 try:
-    root_engine.execute("CREATE DATABASE IF NOT EXISTS {0}".format(database))
-    logger.info("Created database {0}".format(database))
+    if root_engine.name == "postgresql":
+        if not database_exists(database):
+            create_database(database)
+            logger.info("Created PostgreSQL database {0}".format(database))
+        else:
+            logger.info("PostgreSQL database {0} already exists, continuing".format(database))
+    else:
+        root_engine.execute("CREATE DATABASE IF NOT EXISTS {0}".format(database))
+        logger.info("Created database {0}".format(database))
 except:
     logger.critical("Could not create database {0}".format(database))
     raise
@@ -123,9 +133,14 @@ except:
 
 # Create DB User
 try:
-    root_engine.execute(
-        "GRANT ALL ON `{0}`.* TO \'{1}\'@\'%%\' IDENTIFIED BY \'{2}\'".format(
-            database, user, password))
+    if root_engine.name == "postgresql":
+        root_engine.execute(
+            "GRANT ALL PRIVILEGES ON DATABASE `{0}`.* TO \'{1}\'".format(
+                database, user))
+    else:
+        root_engine.execute(
+            "GRANT ALL ON `{0}`.* TO \'{1}\'@\'%%\' IDENTIFIED BY \'{2}\'".format(
+                database, user, password))
     logger.info("Created user {0} for {1}".format(user, database))
 except:
     logger.critical("Could not create user {0} for {1}".format(user, database))
